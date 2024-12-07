@@ -1,39 +1,10 @@
+import { useDispatch, useSelector } from "react-redux"
+import { loveActions } from "../store/mainSectionSlice"
+
 const MainSection = () => {
 
-    const posts = [
-        {
-            "image": "Rectangle",
-            "title": "Blockchain developer best practices on innovation chain",
-            "lovepost": "Like",
-            "aboutpost": ["finance", "bitcoin", "crypto"],
-            "aboutPostOwner": {"photo": "MemojiBoys","name": "Pavel Gvay ▪","date": "3 weeks ago"},
-            "Others": {"Views": "651,324 Views", "Likes": "36,6546 Likes", "Comments": "56 comments"}
-        },
-        {
-            "image": "Rectangle1",
-            "title": "The 4-step SEO framework that led to a 1000% increase in traffic. Let's talk about blogging and SEO...",
-            "lovepost": "Heart",
-            "aboutpost": ["seo", "blogging", "traffic"],
-            "aboutPostOwner": {"photo": "MemojiBoys1","name": "AR Jakir ▪","date": "3 days ago"},
-            "Others": {"Views": "244,564 Views", "Likes": "10,920 Likes", "Comments": "184 comments"}
-        },
-        {
-            "image": "Rectangle2",
-            "title": "OnePay - Online Payment Processing Web App - Download from uihut.com",
-            "lovepost": "Heart",
-            "aboutpost": ["payment", "webapp", "uikit"],
-            "aboutPostOwner": {"photo": "MemojiBoys2","name": "Mansurul Haque ▪","date": "1 weeks ago"},
-            "Others": {"Views": "601,066 Views", "Likes": "24,753 Likes", "Comments": "209 comments"}
-        },
-        {
-            "image": "Rectangle3",
-            "title": "Designing User Interfaces - how I sold 1800 copies in a few months by Michal Malewicz",
-            "lovepost": "Like",
-            "aboutpost": ["design", "user interface", "designing"],
-            "aboutPostOwner": {"photo": "MemojiBoys3","name": "Michal Malewicz ▪","date": "2 weeks ago"},
-            "Others": {"Views": "964,258 Views", "Likes": "64,755 Likes", "Comments": "44 comments"}
-        }
-    ]
+    const posts = useSelector((state) => state.mainSection.posts)
+    const dispatch = useDispatch()
 
     return (
         <div className="flex flex-col gap-5">
@@ -63,15 +34,16 @@ const MainSection = () => {
                 {posts.map(post => {
                     return (
                         <div className="p-5 rounded-2xl bg-[#262D34] w-[700px] flex gap-5 items-start relative">
-                            <img 
+                            <img
                                 src={`/Icons/mainIcon/mainSection/${post.image}.png`} 
                                 alt="PostImage" 
                             />
-
+                                
                             <img 
-                                src={`/Icons/mainIcon/mainSection/${post.lovepost}.png`} 
-                                alt="Love/Heart"
-                                className="absolute right-0 mr-5"
+                                src={post.lovepost} 
+                                alt={post.id}
+                                onClick={() => dispatch(loveActions.reset(post.id - 1))}
+                                className="absolute right-0 mr-5 cursor-pointer"
                             />
 
                             <div className="flex flex-col gap-[30px] w-[519px]">
@@ -98,10 +70,24 @@ const MainSection = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-10 items-center text-[#C5D0E6] text-sm">
+                                    <div className="flex gap-10 items-center text-[#C5D0E6] text-sm select-none">
                                         <p>{post.Others.Views}</p>
-                                        <p>{post.Others.Likes}</p>
-                                        <p>{post.Others.Comments}</p>
+                                        <p className="cursor-pointer flex items-center gap-1 text-md" onClick={() => dispatch(loveActions.incrementUpvote(post.id -1))}>
+                                            {post.Others.Upvote}
+                                            <img 
+                                                src={`/Icons/mainIcon/mainSection/upvote.png`}  
+                                                alt="UpVote" 
+                                                className=" w-5 h-5"
+                                            />
+                                        </p>
+                                        <p className="cursor-pointer flex items-center gap-1 text-md" onClick={() => dispatch(loveActions.incrementDownvote(post.id -1))}>
+                                            {post.Others.Downvote}
+                                            <img 
+                                                src={`/Icons/mainIcon/mainSection/downvote.png`}  
+                                                alt="Downvote"
+                                                className=" w-5 h-5" 
+                                            />
+                                        </p>
                                     </div>
                                 </div>
                             </div>

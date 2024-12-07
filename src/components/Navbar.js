@@ -1,4 +1,6 @@
 import React from "react"
+import { useDispatch } from "react-redux"
+import { loginAction } from "../store/loginSlice"
 
 const Navbar = () => {
 
@@ -24,6 +26,8 @@ const Navbar = () => {
           "name": "microphone"
         },
     ]
+
+    const dispatch = useDispatch()
 
     return (
         <div className="flex justify-between px-5 py-5 items-center bg-[#262D34]">
@@ -78,7 +82,7 @@ const Navbar = () => {
                              className="w-5 h-5"
                         />
 
-                        <div className="flex gap-4 items-center">
+                        <div onClick={() => dispatch(loginAction.show())} className="flex gap-4 items-center">
                             <img 
                                 src={`/Icons/NavIcons/ProfileImage.png`} 
                                 alt={`ProfileImage`}
